@@ -25,7 +25,7 @@ Vaadin is an open-source Java framework for building modern web applications tha
 
 Vaadin provides two development models: for the server-side and for client-side(the browser).Here is the architecture:
 
-![Vaadin Framework - Vaadin Architecture - Overview](https://raw.githubusercontent.com/fiskra/spring-vaadin-login-crud/tree/master/src/main/resources/images/architecture-detailed.png)
+![Vaadin Framework - Vaadin Architecture - Overview](https://github.com/fiskra/spring-vaadin-login-crud/blob/master/src/main/resources/images/architecture-detailed.png)
 
 The Server-driven development is more powerful one, to allow development by utilizing an AJAX based Vaadin Client-Side Engine.
 The client-side model allows developing widgets and applications in Java, which are compiled to JavaScript and executed in the browser.
