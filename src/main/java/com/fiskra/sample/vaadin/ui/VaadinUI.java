@@ -2,6 +2,9 @@ package com.fiskra.sample.vaadin.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fiskra.sample.vaadin.repo.StudentRepository;
+import com.fiskra.sample.vaadin.repo.UserRepository;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Alignment;
@@ -16,83 +19,49 @@ public class VaadinUI extends UI {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//private final StudentRepository repo;
+	@Autowired
+	private final UserRepository repo;
 	
-	//private final StudentEditor editor;
+	@Autowired
+	private final StudentRepository studentRepository;
 	
-	private final LoginForm loginForm;
-	
-	//final Grid<Student> grid;
-
-	//final TextField filter;
-
-	//private final Button addNewBtn;
+	private Navigator navigator;
 
 	@Override
 	protected void init(VaadinRequest request) {
+		
+		
 		// build layout
 		
-	//	HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-	//	VerticalLayout left = new VerticalLayout(actions,grid);
 		
-		//HorizontalLayout mainLayout = new HorizontalLayout(left, editor);
-		VerticalLayout mainLayout = new VerticalLayout(loginForm);
+		VerticalLayout mainLayout = new VerticalLayout();
+		
+		LoginView loginView = new LoginView(repo);
+		
+		mainLayout.addComponent(loginView);
+		
 		mainLayout.setSizeFull();
-		mainLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
+		
+		mainLayout.setComponentAlignment(loginView, Alignment.MIDDLE_CENTER);
 		
 		setContent(mainLayout);
-
-		/*grid.setHeight("600px");
-		grid.setWidth("1000px");
-		grid.setColumns("id", "firstName", "lastName", "phone", "eMail", "birthDate");
-
-		filter.setPlaceholder("Filter by first or last name");*/
-
-		// Hook logic to components
-
-		// Replace listing with filtered content when user changes filter
-		//filter.setValueChangeMode(ValueChangeMode.LAZY);
-		//filter.addValueChangeListener(e -> listStudents(e.getValue()));
-
-		// Connect selected Student to editor or hide if none is selected
-		/*grid.asSingleSelect().addValueChangeListener(e -> {
-			editor.editStudent(e.getValue());
-		});*/
-
-		// Instantiate and edit new Student the new button is clicked
-		//addNewBtn.addClickListener(e -> editor.editStudent(new Student()));
-
-		// Listen changes made by the editor, refresh data from backend
-		/*editor.setChangeHandler(() -> {
-			editor.setVisible(false);
-			listStudents(filter.getValue());
-		});*/
-
-		// Initialize listing
-		//listStudents(null);
+		
+		StudentEditor studentEditor = new StudentEditor(studentRepository);
+		
+		MainView mainView = new MainView(studentRepository, studentEditor);
+		
+		navigator = new Navigator(this, mainLayout);
+		
+		navigator.addView("login", loginView);
+		navigator.addView("crud", mainView);
+		navigator.navigateTo("login");
+		
 	}
 	
 	@Autowired
-	public VaadinUI(LoginForm loginForm) {
-	//	this.repo = repo;
-		this.loginForm = loginForm;
-	//	this.editor = editor;
-	//	this.grid = new Grid<>(Student.class);
-		//this.filter = new TextField();
-		//this.addNewBtn = new Button("New Student", FontAwesome.PLUS);
-		//addNewBtn.setWidth("100%");
+	public VaadinUI(UserRepository repo, StudentRepository studentRepository) {
+		this.repo = repo;
+		this.studentRepository = studentRepository;
+		 
 	}
-
-	/*private void listStudents(String filterText) {
-		if (StringUtils.isEmpty(filterText)) {
-	        grid.setItems(repo.findAll());
-		}else{
-			if(repo.findByLastNameStartsWithIgnoreCase(filterText) != null)
-				grid.setItems(repo.findByLastNameStartsWithIgnoreCase(filterText));
-			else
-				grid.setItems(repo.findByFirstNameStartsWithIgnoreCase(filterText));
-				
-			
-		}
-	}*/
 }

@@ -1,24 +1,27 @@
 package com.fiskra.sample.vaadin.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import com.fiskra.sample.vaadin.model.Student;
 import com.fiskra.sample.vaadin.repo.StudentRepository;
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.DateField;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SpringComponent
 @UIScope
-public class StudentEditor extends VerticalLayout {
+public class StudentEditor extends VerticalLayout implements View{
 	
 	/**
 	 * 
@@ -44,10 +47,13 @@ public class StudentEditor extends VerticalLayout {
 
 	Binder<Student> binder = new Binder<>(Student.class);
 	
+	
+	private Grid<Student> grid;
 	//private static class StockPriceConverter extends SqlDateLocaleConverter
 	
 	@Autowired
 	public StudentEditor(StudentRepository repository) {
+		this.grid = new Grid<>(Student.class);
 		this.studentRepository = repository;
 		addComponents(firstName, lastName, phone, eMail, actions);
 		// bind using naming convention
@@ -104,6 +110,12 @@ public class StudentEditor extends VerticalLayout {
 		// is clicked
 		save.addClickListener(e -> h.onChange());
 		delete.addClickListener(e -> h.onChange());
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
