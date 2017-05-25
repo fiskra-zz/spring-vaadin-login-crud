@@ -80,8 +80,13 @@ public class LoginView extends CustomComponent implements View{
 				System.out.println("-----" + loggedUser.getUserName() + loggedUser.getPassword()+ "-----");				
 				getUI().getNavigator().navigateTo("crud");
 				
+				
+				
 			}
 		});
+		
+		
+		
 	}
 
 
