@@ -7,11 +7,13 @@ import com.fiskra.sample.vaadin.repo.UserRepository;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SpringUI
+@SpringViewDisplay
 public class VaadinUI extends UI {
 	
 	/**
@@ -29,10 +31,7 @@ public class VaadinUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		
-		
 		// build layout
-		
 		
 		VerticalLayout mainLayout = new VerticalLayout();
 		
@@ -50,11 +49,12 @@ public class VaadinUI extends UI {
 		
 		MainView mainView = new MainView(studentRepository, studentEditor);
 		
+		// build navigator
 		navigator = new Navigator(this, mainLayout);
 		
-		navigator.addView("login", loginView);
-		navigator.addView("crud", mainView);
-		navigator.navigateTo("login");
+		navigator.addView(loginView.VIEW_NAME, loginView);
+		navigator.addView(mainView.VIEW_NAME, mainView);
+		navigator.navigateTo(loginView.VIEW_NAME);
 		
 	}
 	

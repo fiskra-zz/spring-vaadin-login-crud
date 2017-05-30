@@ -33,27 +33,22 @@ public class StudentEditor extends VerticalLayout implements View{
 	public Student student;
 	
 	/* Fields to edit properties in Student entity */
-	TextField firstName = new TextField("First name");
-	TextField lastName = new TextField("Last name");
-	TextField phone = new TextField("Phone");
-	TextField eMail = new TextField("E mail");
+	public TextField firstName = new TextField("First name");
+	public TextField lastName = new TextField("Last name");
+	public TextField phone = new TextField("Phone");
+	public TextField eMail = new TextField("E mail");
 	//DateField birthDate = new DateField("Birth date");
 	
 	/* Action buttons */
-	Button save = new Button("Save", FontAwesome.SAVE);
-	Button cancel = new Button("Cancel");
-	Button delete = new Button("Delete", FontAwesome.TRASH_O);
+	public Button save = new Button("Save", FontAwesome.SAVE);
+	public Button cancel = new Button("Cancel");
+	public Button delete = new Button("Delete", FontAwesome.TRASH_O);
 	CssLayout actions = new CssLayout(save, cancel, delete);
 
 	Binder<Student> binder = new Binder<>(Student.class);
 	
-	
-	private Grid<Student> grid;
-	//private static class StockPriceConverter extends SqlDateLocaleConverter
-	
 	@Autowired
 	public StudentEditor(StudentRepository repository) {
-		this.grid = new Grid<>(Student.class);
 		this.studentRepository = repository;
 		addComponents(firstName, lastName, phone, eMail, actions);
 		// bind using naming convention
@@ -65,10 +60,6 @@ public class StudentEditor extends VerticalLayout implements View{
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-		// wire action buttons to save, delete and reset
-		save.addClickListener(e -> repository.save(student));
-		delete.addClickListener(e -> repository.delete(student));
-		cancel.addClickListener(e -> editStudent(student));
 		setVisible(false);
 	}
 
@@ -92,7 +83,7 @@ public class StudentEditor extends VerticalLayout implements View{
 		}
 		cancel.setVisible(persisted);
 
-		// Bind customer properties to similarly named fields
+		// Bind student properties to similarly named fields
 		// Could also use annotation or "manual binding" or programmatically
 		// moving values from fields to entities before saving
 		binder.setBean(student);

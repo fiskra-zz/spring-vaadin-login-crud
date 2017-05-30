@@ -7,7 +7,7 @@ import com.fiskra.sample.vaadin.repo.UserRepository;
 import com.vaadin.data.Binder;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -16,12 +16,15 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 
+@SpringView(name = LoginView.VIEW_NAME)
 public class LoginView extends CustomComponent implements View{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public static final String VIEW_NAME = "login";
 
 	private final UserRepository userRepository;
 	
@@ -78,10 +81,8 @@ public class LoginView extends CustomComponent implements View{
 				String passVal = password.getValue();
 				User loggedUser = userRepository.findByUserNameAndPassword(userNameVal, passVal);
 				System.out.println("-----" + loggedUser.getUserName() + loggedUser.getPassword()+ "-----");				
-				getUI().getNavigator().navigateTo("crud");
-				
-				
-				
+				getUI().getNavigator().navigateTo(MainView.VIEW_NAME);
+	
 			}
 		});
 		
